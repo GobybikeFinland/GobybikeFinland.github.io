@@ -17,6 +17,8 @@ tags:
     description: Endpoints for managing customer records
   - name: Enduser
     description: Endpoints for managing enduser records
+  - name: Bikeregistry
+    description: Endpoints for managing bikeregistry records
 
 
 paths:
@@ -34,7 +36,7 @@ paths:
             schema:
               $ref: '#/components/schemas/CustomerRequest'
       responses:
-        '201':
+        '204':
           description: Customer created
           content:
             application/json:
@@ -42,11 +44,18 @@ paths:
                 $ref: '#/components/schemas/CustomerResponse'
         '400':
           description: Validation or missing required field error
-  /customer:
+  /customer/{id}:
+    get:
+      tags:
+        - Customer
+      summary: Get an customer record by ID
+      description: Retrieves an enduser record by its ID.
+      operationId: getEnduserById 
+  /enduser:
     post:
       tags:
         - Enduser
-      summary: Create a new enduser record
+      summary: Create a new enduser record (use /customer endpoint)
       description: Creates an enduser record in NetSuite.
       operationId: createEnduser
       requestBody:
@@ -56,7 +65,7 @@ paths:
             schema:
               $ref: '#/components/schemas/EnduserRequest' 
       responses:
-        '201':
+        '204':
           description: Enduser created
           content:
             application/json:
@@ -64,13 +73,44 @@ paths:
                 $ref: '#/components/schemas/EnduserResponse'
         '400':
           description: Validation or missing required field error
-  /customer/{id}:
+  /enduser/{id}:
     get:
       tags:
         - Enduser
       summary: Get an enduser record by ID
       description: Retrieves an enduser record by its ID.
       operationId: getEnduserById 
+
+  /bikeregistry:
+    post:
+      tags:
+        - Bikeregistry
+      summary: Create a new bikeregistry record
+      description: Creates a bikeregistry record in NetSuite.
+      operationId: createBikeregistry
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BikeregistryRequest'
+      responses:
+        '204':
+          description: Bikeregistry created
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/BikeregistryResponse'
+        '400':
+          description: Validation or missing required field error
+  /bikeregistry/{id}:
+    get:
+      tags: 
+        - Bikeregistry
+      summary: Get a bikeregistry record by ID
+      description: Retrieves a bikeregistry record by its ID.
+      operationId: getBikeregistryById  
+
 
 components:
   schemas:
