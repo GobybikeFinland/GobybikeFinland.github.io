@@ -8,10 +8,15 @@ info:
 
 servers:
   - url: https://{account_id}.suitetalk.api.netsuite.com/services/rest/record/v1
-    description: Production Server
+    description: SANDBOX
     variables:
       account_id:
-        default: "123456_SB1"  # Replace with your NetSuite Account ID
+        default: "9771141-sb1"  # Replace with your NetSuite Account ID
+  - url: https://{account_id}.suitetalk.api.netsuite.com/services/rest/record/v1
+    description: PRODUCTION
+    variables:
+      account_id:
+        default: "9771141"  # Replace with your NetSuite Account ID
 
 tags:
   - name: Authentication
