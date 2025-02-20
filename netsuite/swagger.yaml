@@ -382,3 +382,133 @@ components:
               type: string
               description: NetSuite internal ID for the created/retrieved record
 
+    BikeregistryRequest:
+      type: object
+      properties:
+        custrecord_sta_bike_contract_id:
+          type: string
+          description: Bike contract identifier
+        custrecord_sta_contract_employer:
+          type: object
+          properties:
+            id:
+              type: string
+              description: Employer internal ID
+        custrecord_sta_del_authoriz_sent:
+          type: boolean
+          description: Delivery authorization sent status
+        custrecord_sta_employer_cntrct_price_lim:
+          type: number
+          format: float
+          description: Employer contract price limit
+        custrecord_sta_enduser:
+          type: object
+          properties:
+            id:
+              type: string
+              description: Enduser internal ID
+        custrecord_sta_enduser_cost_center:
+          type: string
+          description: Enduser cost center
+        custrecord_sta_enduser_email:
+          type: string
+          format: email
+          description: Enduser email address
+        custrecord_sta_enduser_phone_num:
+          type: string
+          description: Enduser phone number
+        custrecord_sta_invoice_frequency:
+          type: integer
+          description: Invoice frequency
+        custrecord_sta_maintenances_not_allowed:
+          type: boolean
+          description: Flag indicating if maintenances are not allowed
+        custrecord_sta_order_currency:
+          type: object
+          properties:
+            id:
+              type: string
+              description: Currency internal ID
+        name:
+          type: string
+          description: Record name
+        isInactive:
+          type: boolean
+          description: Flag indicating if the record is inactive
+      required:
+        - custrecord_sta_bike_contract_id
+        - custrecord_sta_contract_employer
+        - custrecord_sta_enduser
+        - name
+
+    BikeregistryResponse:
+      allOf:
+        - $ref: '#/components/schemas/BikeregistryRequest'
+        - type: object
+          properties:
+            links:
+              type: array
+              items:
+                $ref: '#/components/schemas/Link'
+            id:
+              type: string
+              description: Record internal ID
+            scriptId:
+              type: string
+              description: Script ID of the record
+            custrecord_sta_contract_employer:
+              type: object
+              properties:
+                links:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Link'
+                id:
+                  type: string
+                refName:
+                  type: string
+            custrecord_sta_enduser:
+              type: object
+              properties:
+                links:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Link'
+                id:
+                  type: string
+                refName:
+                  type: string
+            custrecord_sta_order_currency:
+              type: object
+              properties:
+                links:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Link'
+                id:
+                  type: string
+                refName:
+                  type: string
+            owner:
+              type: object
+              properties:
+                links:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Link'
+                id:
+                  type: string
+                refName:
+                  type: string
+
+    Link:
+      type: object
+      properties:
+        rel:
+          type: string
+          description: Relation type of the link
+        href:
+          type: string
+          format: uri
+          description: URL of the resource
+
