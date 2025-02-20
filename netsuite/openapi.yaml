@@ -1,0 +1,207 @@
+openapi: 3.0.3
+info:
+  title: NetSuite Customer API
+  version: '1.0.0'
+  description: API for creating customers in NetSuite
+
+servers:
+  - url: https://{account_id}.suitetalk.api.netsuite.com/services/rest/record/v1
+    description: Production Server
+    variables:
+      account_id:
+        default: "123456_SB1"
+
+tags:
+  - name: Customer
+    description: Endpoints for managing customer records
+
+paths:
+  /customer:
+    post:
+      tags:
+        - Customer
+      summary: Create a new customer record
+      description: Creates a customer record in NetSuite.
+      operationId: createCustomer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerRequest'
+      responses:
+        '201':
+          description: Customer created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerResponse'
+        '400':
+          description: Validation or missing required field error
+
+components:
+  schemas:
+    CustomerRequest:
+      type: object
+      properties:
+        customform:
+          type: string
+          description: Custom form ID
+        entityid:
+          type: string
+          description: Unique customer identifier
+        isperson:
+          type: boolean
+          description: Indicates whether the customer is an individual or a company
+        companyname:
+          type: string
+          description: Name of the company
+        email:
+          type: string
+          format: email
+          description: Customer's email address
+        custentity_sta_tax_reg_number:
+          type: string
+          description: Tax registration number
+        externalid:
+          type: string
+          description: External ID for reference
+        custentity_sta_einv_businessid:
+          type: string
+          description: Electronic invoicing business ID
+        comments:
+          type: string
+          description: Additional comments
+        custentity_sta_hubspot_id:
+          type: string
+          description: HubSpot ID reference
+        custentity_sta_customer_size:
+          type: string
+          description: Customer size category
+        custentity_sta_organisation_type:
+          type: string
+          description: Organization type
+        custentity_sta_credit_rating:
+          type: string
+          description: Credit rating
+        custentity_sta_industry:
+          type: string
+          description: Industry classification
+        custentity_sta_contract_id:
+          type: string
+          description: Contract ID
+        custentity_sta_start_date:
+          type: string
+          format: date
+          description: Contract start date
+        custentity_sta_bikebenefitlimit:
+          type: number
+          format: float
+          description: Bike benefit limit
+        custentity_sta_rent_price:
+          type: number
+          format: float
+          description: Rent price
+        custentity_sta_handlingfee_price:
+          type: number
+          format: float
+          description: Handling fee price
+        custentity_sta_maint_not_allowed:
+          type: boolean
+          description: Indicates if maintenance is not allowed
+        custentity_sta_einvoicing_delivery_metho:
+          type: string
+          description: E-invoicing delivery method
+        custentity_sta_einvoice_routing_channel:
+          type: string
+          description: E-invoice routing channel
+        custentity_sta_einvoicing_payer_operator:
+          type: string
+          description: E-invoicing payer operator
+        custentity_sta_einvoicing_payer_ovt:
+          type: string
+          description: E-invoicing payer OVT
+        custentity_sta_einvoice_language:
+          type: string
+          description: E-invoice language
+        custentity_sta_invatch_req:
+          type: boolean
+          description: Invoice attachment required
+        custentity_sta_rent_group_total:
+          type: boolean
+        custentity_sta_rent_by_enduser_ccs:
+          type: boolean
+        custentity_sta_handling_group_total:
+          type: boolean
+        custentity_sta_handling_by_enduser_ccs:
+          type: boolean
+        custentity_sta_leasing_fee:
+          type: boolean
+        custentity_sta_leasing_by_enduser_ccs:
+          type: boolean
+        custentity_sta_split_by_enduser_ccs:
+          type: boolean
+        custentity_sta_split_separate_billtos:
+          type: boolean
+        entitystatus:
+          type: object
+          properties:
+            id:
+              type: string
+              description: Status ID
+        subsidiary:
+          type: object
+          properties:
+            id:
+              type: string
+              description: Subsidiary ID
+        currency:
+          type: object
+          properties:
+            id:
+              type: string
+              description: Currency ID
+        language:
+          type: object
+          properties:
+            id:
+              type: string
+              description: Language code
+        addressbook:
+          type: object
+          properties:
+            items:
+              type: array
+              items:
+                type: object
+                properties:
+                  addressbookaddress:
+                    type: object
+                    properties:
+                      attention:
+                        type: string
+                      addressee:
+                        type: string
+                      addr1:
+                        type: string
+                      addr2:
+                        type: string
+                      city:
+                        type: string
+                      zip:
+                        type: string
+                      country:
+                        type: string
+                      defaultBilling:
+                        type: boolean
+                      defaultShipping:
+                        type: boolean
+
+    CustomerResponse:
+      allOf:
+        - $ref: '#/components/schemas/CustomerRequest'
+        - type: object
+          properties:
+            internalId:
+              type: string
+              description: NetSuite internal ID for the created/retrieved record
