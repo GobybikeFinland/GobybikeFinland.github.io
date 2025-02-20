@@ -37,11 +37,7 @@ paths:
               $ref: '#/components/schemas/CustomerRequest'
       responses:
         '204':
-          description: Customer created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CustomerResponse'
+          description: Customer created successfully
         '400':
           description: Validation or missing required field error
   /customer/{id}:
@@ -84,11 +80,7 @@ paths:
               $ref: '#/components/schemas/EnduserRequest' 
       responses:
         '204':
-          description: Enduser created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/EnduserResponse'
+          description: Enduser created successfully
         '400':
           description: Validation or missing required field error
   /enduser/{id}:
@@ -131,11 +123,7 @@ paths:
               $ref: '#/components/schemas/BikeregistryRequest'
       responses:
         '204':
-          description: Bikeregistry created
-          content:
-            application/json:
-              schema: 
-                $ref: '#/components/schemas/BikeregistryResponse'
+          description: Bikeregistry created successfully
         '400':
           description: Validation or missing required field error
   /customrecord_sta_bike_register/{id}:
