@@ -50,7 +50,7 @@ paths:
         - Customer
       summary: Get a customer record by ID
       description: Retrieves a customer record by its ID.
-      operationId: getCustomerById
+      operationId: disabled
       parameters:
         - name: id
           in: path
