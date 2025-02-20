@@ -97,8 +97,25 @@ paths:
         - Enduser
       summary: Get an enduser record by ID
       description: Retrieves an enduser record by its ID.
-      operationId: getEnduserById 
-
+      operationId: getEnduserById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the enduser to retrieve
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnduserResponse'
+        '404':
+          description: Enduser not found
+        '400':
+          description: Invalid ID supplied
   /bikeregistry:
     post:
       tags:
@@ -123,11 +140,29 @@ paths:
           description: Validation or missing required field error
   /bikeregistry/{id}:
     get:
-      tags: 
+      tags:
         - Bikeregistry
       summary: Get a bikeregistry record by ID
       description: Retrieves a bikeregistry record by its ID.
-      operationId: getBikeregistryById  
+      operationId: getBikeregistryById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the bikeregistry to retrieve
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BikeregistryResponse'
+        '404':
+          description: Bikeregistry not found
+        '400':
+          description: Invalid ID supplied
 
 
 components:
