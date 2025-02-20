@@ -3,24 +3,21 @@ info:
   title: NetSuite REST API
   version: '1.0.0'
   description: >
-    An OpenAPI specification for NetSuite’s REST API endpoints, including both
+    An OpenAPI specification for NetSuite's REST API endpoints, including both
     standard and custom records.
 
 servers:
-  - url: https://{account_id}.suitetalk.api.netsuite.com/services/rest/record/v1
-    description: SANDBOX
-    variables:
-      account_id:
-        default: "9771141-sb1"  # Replace with your NetSuite Account ID
-  - url: https://{account_id}.suitetalk.api.netsuite.com/services/rest/record/v1
-    description: PRODUCTION
-    variables:
-      account_id:
-        default: "9771141"  # Replace with your NetSuite Account ID
+  - url: https://9771141-sb1.suitetalk.api.netsuite.com/services/rest/record/v1
+    description: SANDBOX (9771141-sb1)
+  - url: https://9771141.suitetalk.api.netsuite.com/services/rest/record/v1
+    description: PRODUCTION (9771141)
 
 tags:
   - name: Customer
     description: Endpoints for managing customer records
+  - name: Enduser
+    description: Endpoints for managing enduser records
+
 
 paths:
   /customer:
@@ -45,6 +42,35 @@ paths:
                 $ref: '#/components/schemas/CustomerResponse'
         '400':
           description: Validation or missing required field error
+  /enduser:
+    post:
+      tags:
+        - Enduser
+      summary: Create a new enduser record
+      description: Creates an enduser record in NetSuite.
+      operationId: createEnduser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnduserRequest' 
+      responses:
+        '201':
+          description: Enduser created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnduserResponse'
+        '400':
+          description: Validation or missing required field error
+  /enduser/{id}:
+    get:
+      tags:
+        - Enduser
+      summary: Get an enduser record by ID
+      description: Retrieves an enduser record by its ID.
+      operationId: getEnduserById 
 
 components:
   schemas:
@@ -212,3 +238,107 @@ components:
             internalId:
               type: string
               description: NetSuite internal ID for the created/retrieved record
+    EnduserRequest:
+      type: object
+      properties:
+        customform:
+          type: string
+          description: Custom form ID
+        entityid:
+          type: string
+          description: Unique enduser identifier
+        isperson:
+          type: boolean
+          description: Indicates whether the enduser is an individual or a company
+        firstname:
+          type: string
+          description: First name of the enduser
+        lastname:
+          type: string
+          description: Last name of the enduser
+        emailpreference:
+          type: string
+          description: Preferred email format (e.g., PDF)
+        email:
+          type: string
+          format: email
+          description: Enduser's email address
+        comments:
+          type: string
+          description: Additional comments
+        entitystatus:
+          type: object
+          properties:
+            id:
+              type: string
+              description: Status ID
+        subsidiary:
+          type: object
+          properties:
+            id:
+              type: string
+              description: 1 = GBB, 2 = GBF
+        currency:
+          type: object
+          properties:
+            id:
+              type: string
+              description: Currency ID
+        language:
+          type: object
+          properties:
+            id:
+              type: string
+              description: fi_FI
+        addressbook:
+          type: object
+          properties:
+            items:
+              type: array
+              items:
+                type: object
+                properties:
+                  addressbookaddress:
+                    type: object
+                    properties:
+                      attention:
+                        type: string
+                        description: Attention line for the address
+                      addressee:
+                        type: string
+                        description: Name of the addressee
+                      addr1:
+                        type: string
+                        description: Address line 1
+                      addr2:
+                        type: string
+                        description: Address line 2
+                      city:
+                        type: string
+                        description: City name
+                      zip:
+                        type: string
+                        description: Postal/ZIP code
+                      country:
+                        type: string
+                        description: Country code
+                      defaultBilling:
+                        type: boolean
+                        description: Indicates if this is the default billing address
+                      defaultShipping:
+                        type: boolean
+                        description: Indicates if this is the default shipping address
+      required:
+        - entityid
+        - isperson
+        - email
+    
+    EnduserResponse:
+      allOf:
+        - $ref: '#/components/schemas/EnduserRequest'
+        - type: object
+          properties:
+            internalId:
+              type: string
+              description: NetSuite internal ID for the created/retrieved record
+
