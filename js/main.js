@@ -1,8 +1,7 @@
 async function loadConfig() {
     try {
-        const response = await fetch('_config.yml');
-        const yamlText = await response.text();
-        const config = jsyaml.load(yamlText);
+        const response = await fetch('config.json');
+        const config = await response.json();
         populateLinks(config);
     } catch (error) {
         console.error('Error loading configuration:', error);
