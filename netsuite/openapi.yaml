@@ -9,7 +9,8 @@ servers:
     description: Production Server
     variables:
       account_id:
-        default: "123456_SB1"
+        SANDBOX: "9771141-sb1"
+        PRODUCTION: "9771141"
 
 tags:
   - name: Customer
