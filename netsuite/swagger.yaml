@@ -50,7 +50,7 @@ paths:
         - Customer
       summary: Get a customer record by ID
       description: Retrieves a customer record by its ID.
-      operationId: disabled
+      operationId: getCustomerById
       parameters:
         - name: id
           in: path
@@ -493,11 +493,6 @@ components:
         isInactive:
           type: boolean
           description: Flag indicating if the record is inactive
-      required:
-        - custrecord_sta_bike_contract_id
-        - custrecord_sta_contract_employer
-        - custrecord_sta_enduser
-        - name
 
     BikeregistryResponse:
       allOf:
