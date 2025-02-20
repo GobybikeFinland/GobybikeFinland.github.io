@@ -1,0 +1,204 @@
+openapi: 3.0.3
+info:
+  title: NetSuite REST API
+  version: '1.0.0'
+  description: >
+    An OpenAPI specification for NetSuite’s REST API endpoints, including both
+    standard and custom records.
+
+servers:
+  - url: https://{account_id}.suitetalk.api.netsuite.com/services/rest/record/v1
+    description: Production Server
+    variables:
+      account_id:
+        default: "123456_SB1"  # Replace with your NetSuite Account ID
+
+tags:
+  - name: Authentication
+    description: Endpoints for authentication (if using OAuth2)
+  - name: Customer
+    description: Endpoints for creating and retrieving customer records
+  - name: Sales Order
+    description: Endpoints for managing sales orders
+  - name: Custom Records
+    description: Endpoints for managing custom records
+
+paths:
+  /customer:
+    get:
+      tags:
+        - Customer
+      summary: Retrieve a list of customer records
+      description: Returns a list of customers based on the query parameters.
+      operationId: getCustomers
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          description: Search keyword (e.g. by customer name, email)
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            default: 20
+          description: Max number of records per page
+        - in: query
+          name: offset
+          schema:
+            type: integer
+            default: 0
+          description: Offset for pagination
+      responses:
+        '200':
+          description: A list of customer records
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerListResponse'
+        '400':
+          description: Bad request (e.g., invalid parameters)
+
+    post:
+      tags:
+        - Customer
+      summary: Create a new customer record
+      description: Creates a customer record in NetSuite.
+      operationId: createCustomer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerRequest'
+      responses:
+        '201':
+          description: Customer created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerResponse'
+        '400':
+          description: Validation or missing required field error
+
+  /customer/{id}:
+    get:
+      tags:
+        - Customer
+      summary: Retrieve a specific customer by ID
+      operationId: getCustomerById
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: NetSuite internal ID of the customer
+      responses:
+        '200':
+          description: Customer details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerResponse'
+        '404':
+          description: Customer not found
+
+    patch:
+      tags:
+        - Customer
+      summary: Update an existing customer record
+      operationId: updateCustomer
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: NetSuite internal ID of the customer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerRequest'
+      responses:
+        '200':
+          description: Customer updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerResponse'
+        '400':
+          description: Invalid data
+
+    delete:
+      tags:
+        - Customer
+      summary: Delete a customer record
+      operationId: deleteCustomer
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: NetSuite internal ID of the customer
+      responses:
+        '204':
+          description: Customer deleted successfully
+        '404':
+          description: Customer not found
+
+components:
+  schemas:
+    CustomerRequest:
+      type: object
+      properties:
+        entityId:
+          type: string
+          description: Unique customer name or ID
+        email:
+          type: string
+          format: email
+        # Add or remove fields as needed
+      required:
+        - entityId
+
+    CustomerResponse:
+      allOf:
+        - $ref: '#/components/schemas/CustomerRequest'
+        - type: object
+          properties:
+            internalId:
+              type: string
+              description: NetSuite’s internal ID for the created/retrieved record
+
+    CustomerListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomerResponse'
+        totalResults:
+          type: integer
+        limit:
+          type: integer
+        offset:
+          type: integer
+
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://example.com/oauth2/v1/token
+          scopes: {}
+    netsuiteTokenAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+security:
+  - netsuiteTokenAuth: []
