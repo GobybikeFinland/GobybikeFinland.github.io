@@ -116,7 +116,7 @@ paths:
           description: Enduser not found
         '400':
           description: Invalid ID supplied
-  /bikeregistry:
+  /customrecord_sta_bike_register:
     post:
       tags:
         - Bikeregistry
@@ -138,7 +138,7 @@ paths:
                 $ref: '#/components/schemas/BikeregistryResponse'
         '400':
           description: Validation or missing required field error
-  /bikeregistry/{id}:
+  /customrecord_sta_bike_register/{id}:
     get:
       tags:
         - Bikeregistry
