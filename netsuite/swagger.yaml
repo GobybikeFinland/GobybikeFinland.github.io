@@ -42,7 +42,7 @@ paths:
                 $ref: '#/components/schemas/CustomerResponse'
         '400':
           description: Validation or missing required field error
-  /enduser:
+  /customer:
     post:
       tags:
         - Enduser
@@ -64,7 +64,7 @@ paths:
                 $ref: '#/components/schemas/EnduserResponse'
         '400':
           description: Validation or missing required field error
-  /enduser/{id}:
+  /customer/{id}:
     get:
       tags:
         - Enduser
