@@ -13,8 +13,7 @@ window.onload = function() {
     plugins: [
       SwaggerUIBundle.plugins.DownloadUrl
     ],
-    layout: "StandaloneLayout",
-    supportedSubmitMethods: [] 
+    layout: "StandaloneLayout"
   });
 
   //</editor-fold>
