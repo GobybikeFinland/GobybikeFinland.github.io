@@ -434,14 +434,8 @@ components:
             internalId:
               type: string
               description: NetSuite internal ID for the created/retrieved record
-
     BikeregistryRequest:
       type: object
-      required:
-        - custrecord_sta_bike_contract_id
-        - custrecord_sta_contract_employer
-        - custrecord_sta_enduser
-        - name
       properties:
         custrecord_sta_bike_contract_id:
           type: string
