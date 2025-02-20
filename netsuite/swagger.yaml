@@ -48,9 +48,27 @@ paths:
     get:
       tags:
         - Customer
-      summary: Get an customer record by ID
-      description: Retrieves an enduser record by its ID.
-      operationId: getEnduserById 
+      summary: Get a customer record by ID
+      description: Retrieves a customer record by its ID.
+      operationId: getCustomerById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the customer to retrieve
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerResponse'
+        '404':
+          description: Customer not found
+        '400':
+          description: Invalid ID supplied
   /enduser:
     post:
       tags:
