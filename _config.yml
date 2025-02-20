@@ -1,0 +1,47 @@
+api_documentation:
+  backend:
+    - name: Core API Documentation
+      url: https://api-docs.gobybike.com
+    - name: Authentication Service API
+      url: https://auth-docs.gobybike.com
+    - name: Payment Processing API
+      url: https://payments-docs.gobybike.com
+
+  frontend:
+    - name: Web App Components
+      url: https://web-docs.gobybike.com
+    - name: Mobile App SDK
+      url: https://mobile-docs.gobybike.com
+
+  third_party:
+    - name: Maps Integration API
+      url: https://maps-docs.gobybike.com
+    - name: Payment Gateway Documentation
+      url: https://gateway-docs.gobybike.com
+    - name: Analytics Platform API
+      url: https://analytics-docs.gobybike.com
+
+internal_resources:
+  repositories:
+    - name: Backend Repository
+      url: https://github.com/gobybike/backend
+    - name: Frontend Repository
+      url: https://github.com/gobybike/frontend
+    - name: Mobile App Repository
+      url: https://github.com/gobybike/mobile
+
+  documentation:
+    - name: Architecture Overview
+      url: https://wiki.gobybike.com/architecture
+    - name: Development Guidelines
+      url: https://wiki.gobybike.com/guidelines
+    - name: Release Process
+      url: https://wiki.gobybike.com/releases
+
+  tools:
+    - name: Jira Board
+      url: https://gobybike.atlassian.net
+    - name: Confluence Wiki
+      url: https://gobybike.confluence.com
+    - name: CI/CD Pipeline
+      url: https://jenkins.gobybike.com 
