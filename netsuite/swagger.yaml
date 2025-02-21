@@ -160,13 +160,13 @@ components:
       properties:
         customform:
           type: string
-          description: Custom form ID
+          description: Use 81 for customer
         entityid:
           type: string
           description: Unique customer identifier
         isperson:
           type: boolean
-          description: Indicates whether the customer is an individual or a company
+          description: This property is always true for customer
         companyname:
           type: string
           description: Name of the company
@@ -324,13 +324,13 @@ components:
       properties:
         customform:
           type: string
-          description: Custom form ID
+          description: Use 81 for enduser
         entityid:
           type: string
           description: Unique enduser identifier
         isperson:
           type: boolean
-          description: Indicates whether the enduser is an individual or a company
+          description: This property is always false for enduser
         firstname:
           type: string
           description: First name of the enduser
