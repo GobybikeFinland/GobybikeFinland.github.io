@@ -19,6 +19,8 @@ tags:
     description: Endpoints for managing enduser records
   - name: Bikeregistry
     description: Endpoints for managing bikeregistry records
+  - name: Salesorder
+    description: Endpoints for managing sales order records
 
 
 paths:
@@ -151,10 +153,92 @@ paths:
           description: Bikeregistry not found
         '400':
           description: Invalid ID supplied
+  /salesorder:
+    post:
+      tags:
+        - Salesorder
+      summary: Create a new sales order
+      description: Creates a sales order record in NetSuite.
+      operationId: createSalesOrder
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SalesorderRequest'
+      responses:
+        '204':
+          description: Sales order created successfully
+        '400':
+          description: Validation or missing required field error
+  /salesorder/{id}:
+    get:
+      tags:
+        - Salesorder
+      summary: Get a sales order by ID
+      description: Retrieves a sales order record by its ID.
+      operationId: getSalesOrderById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the sales order to retrieve
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SalesorderResponse'
+        '404':
+          description: Sales order not found
+        '400':
+          description: Invalid ID supplied
 
 
 components:
   schemas:
+    AddressBook:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              addressbookaddress:
+                type: object
+                properties:
+                  attention:
+                    type: string
+                    description: Attention line for the address
+                  addressee:
+                    type: string
+                    description: Name of the addressee
+                  addr1:
+                    type: string
+                    description: Address line 1
+                  addr2:
+                    type: string
+                    description: Address line 2
+                  city:
+                    type: string
+                    description: City name
+                  zip:
+                    type: string
+                    description: Postal/ZIP code
+                  country:
+                    type: string
+                    description: Country code
+                  defaultBilling:
+                    type: boolean
+                    description: Indicates if this is the default billing address
+                  defaultShipping:
+                    type: boolean
+                    description: Indicates if this is the default shipping address
+
     CustomerRequest:
       type: object
       properties:
@@ -282,34 +366,7 @@ components:
               type: string
               description: Language code
         addressbook:
-          type: object
-          properties:
-            items:
-              type: array
-              items:
-                type: object
-                properties:
-                  addressbookaddress:
-                    type: object
-                    properties:
-                      attention:
-                        type: string
-                      addressee:
-                        type: string
-                      addr1:
-                        type: string
-                      addr2:
-                        type: string
-                      city:
-                        type: string
-                      zip:
-                        type: string
-                      country:
-                        type: string
-                      defaultBilling:
-                        type: boolean
-                      defaultShipping:
-                        type: boolean
+          $ref: '#/components/schemas/AddressBook'
 
     CustomerResponse:
       allOf:
@@ -372,43 +429,7 @@ components:
               type: string
               description: fi_FI
         addressbook:
-          type: object
-          properties:
-            items:
-              type: array
-              items:
-                type: object
-                properties:
-                  addressbookaddress:
-                    type: object
-                    properties:
-                      attention:
-                        type: string
-                        description: Attention line for the address
-                      addressee:
-                        type: string
-                        description: Name of the addressee
-                      addr1:
-                        type: string
-                        description: Address line 1
-                      addr2:
-                        type: string
-                        description: Address line 2
-                      city:
-                        type: string
-                        description: City name
-                      zip:
-                        type: string
-                        description: Postal/ZIP code
-                      country:
-                        type: string
-                        description: Country code
-                      defaultBilling:
-                        type: boolean
-                        description: Indicates if this is the default billing address
-                      defaultShipping:
-                        type: boolean
-                        description: Indicates if this is the default shipping address
+          $ref: '#/components/schemas/AddressBook'
       required:
         - entityid
         - isperson
@@ -546,4 +567,153 @@ components:
           type: string
           format: uri
           description: URL of the resource
+
+    SalesorderRequest:
+      type: object
+      properties:
+        customForm:
+          type: object
+          properties:
+            id:
+              type: string
+              description: Custom form ID (e.g., "111" for GBB Sales Order)
+        entity:
+          type: object
+          properties:
+            id:
+              type: string
+              description: Customer/vendor internal ID
+        tranDate:
+          type: string
+          format: date
+          description: Transaction date
+        salesEffectiveDate:
+          type: string
+          format: date
+          description: Sales effective date
+        currency:
+          type: object
+          properties:
+            id:
+              type: string
+              description: Currency internal ID
+        subsidiary:
+          type: object
+          properties:
+            id:
+              type: string
+              description: Subsidiary internal ID
+        email:
+          type: string
+          format: email
+          description: Email address for communications
+        custbody_sta_deliverydate:
+          type: string
+          format: date
+          description: Delivery date
+        custbody_sta_credit_duedate:
+          type: string
+          format: date
+          description: Credit due date
+        custbody_promisedate:
+          type: string
+          format: date
+          description: Promise date
+        billAddressList:
+          type: object
+          properties:
+            id:
+              type: string
+              description: Billing address ID
+        shipAddressList:
+          type: object
+          properties:
+            id:
+              type: string
+              description: Shipping address ID
+        custbody_invoice_company_email:
+          type: string
+          format: email
+          description: Invoice company email
+        custbody_sta_einvoicing_payee_name:
+          type: string
+          description: E-invoicing payee name
+        custbody_sta_einvoicing_payee_busin_id:
+          type: string
+          description: E-invoicing payee business ID
+        custbody_sta_einvoicing_payee_vat:
+          type: string
+          description: E-invoicing payee VAT number
+        custbody_sta_einvoicing_payee_edi:
+          type: string
+          description: E-invoicing payee EDI
+        custbody_sta_einvoicing_payee_address:
+          type: string
+          description: E-invoicing payee address
+        custbody_sta_einvoicing_payee_city:
+          type: string
+          description: E-invoicing payee city
+        custbody_sta_einvoicing_payee_zip:
+          type: string
+          description: E-invoicing payee ZIP code
+        custbody_sta_einvoicing_payee_country:
+          type: string
+          description: E-invoicing payee country
+
+    SalesorderResponse:
+      allOf:
+        - $ref: '#/components/schemas/SalesorderRequest'
+        - type: object
+          properties:
+            id:
+              type: string
+              description: Internal ID of the sales order
+            tranId:
+              type: string
+              description: Transaction ID (e.g., SOGBB000002)
+            links:
+              type: array
+              items:
+                $ref: '#/components/schemas/Link'
+            status:
+              type: object
+              properties:
+                id:
+                  type: string
+                refName:
+                  type: string
+            subtotal:
+              type: number
+              format: float
+              description: Subtotal amount
+            total:
+              type: number
+              format: float
+              description: Total amount including tax
+            createdDate:
+              type: string
+              format: date-time
+              description: Record creation timestamp
+            lastModifiedDate:
+              type: string
+              format: date-time
+              description: Last modification timestamp
+            custbody_stc_amount_after_discount:
+              type: number
+              format: float
+            custbody_stc_tax_after_discount:
+              type: number
+              format: float
+            custbody_stc_total_after_discount:
+              type: number
+              format: float
+            exchangeRate:
+              type: number
+              format: float
+            billAddress:
+              type: string
+              description: Formatted billing address
+            shipAddress:
+              type: string
+              description: Formatted shipping address
 
